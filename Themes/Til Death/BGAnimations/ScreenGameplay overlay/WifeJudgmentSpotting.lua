@@ -589,17 +589,18 @@ local e =
 			Movable.DeviceButton_6.DeviceButton_left.arbitraryFunction = arbitraryErrorBarValue
 			Movable.DeviceButton_6.DeviceButton_right.arbitraryFunction = arbitraryErrorBarValue
 		end
-		if enabledErrorBar == 1 then
+		if enabledErrorBar % 2 == 1 then
 			for i = 1, barcount do -- basically the equivalent of using GetChildren() if it returned unnamed children numerically indexed
 				ingots[#ingots + 1] = self:GetChild(i)
 			end
-		else
+		end
+		if enabledErrorBar >= 2 then
 			avg = 0
 			lastAvg = 0
 		end
 	end,
 	SpottedOffsetCommand = function(self)
-		if enabledErrorBar == 1 then
+		if enabledErrorBar % 2 == 1 then
 			if dvCur ~= nil then
 				currentbar = ((currentbar) % barcount) + 1
 				ingots[currentbar]:playcommand("UpdateErrorBar") -- Update the next bar in the queue
@@ -621,7 +622,7 @@ local e =
 	Def.Quad {
 		Name = "WeightedBar",
 		InitCommand = function(self)
-			if enabledErrorBar == 2 then
+			if enabledErrorBar >= 2 then
 				self:xy(MovableValues.ErrorBarX, MovableValues.ErrorBarY):zoomto(barWidth, MovableValues.ErrorBarHeight):diffusealpha(
 					1
 				):diffuse(getMainColor("enabled"))
@@ -630,7 +631,7 @@ local e =
 			end
 		end,
 		SpottedOffsetCommand = function(self)
-			if enabledErrorBar == 2 and dvCur ~= nil then
+			if enabledErrorBar >= 2 and dvCur ~= nil then
 				avg = alpha * dvCur + (1 - alpha) * lastAvg
 				lastAvg = avg
 				self:x(MovableValues.ErrorBarX + avg * wscale)
@@ -684,7 +685,7 @@ local e =
 }
 
 -- Initialize bars
-if enabledErrorBar == 1 then
+if enabledErrorBar % 2 == 1 then
 	for i = 1, barcount do
 		e[#e + 1] = smeltErrorBar(i)
 	end

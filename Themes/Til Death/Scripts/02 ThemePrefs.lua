@@ -456,7 +456,7 @@ function ErrorBar()
 		SelectType = "SelectOne",
 		OneChoiceForAllPlayers = false,
 		ExportOnChange = true,
-		Choices = {THEME:GetString("OptionNames", "Off"), THEME:GetString("OptionNames", "On"), THEME:GetString("OptionNames", "EWMA")},
+		Choices = {THEME:GetString("OptionNames", "Off"), THEME:GetString("OptionNames", "On"), THEME:GetString("OptionNames", "EWMA"), THEME:GetString("OptionNames", "Both")},
 		LoadSelections = function(self, list, pn)
 			local pref = playerConfig:get_data(pn_to_profile_slot(pn)).ErrorBar
 			list[pref + 1] = true
@@ -467,8 +467,10 @@ function ErrorBar()
 				value = 0
 			elseif list[2] == true then
 				value = 1
-			else
+			elseif list[3] == true then
 				value = 2
+			else
+				value = 3
 			end
 			playerConfig:get_data(pn_to_profile_slot(pn)).ErrorBar = value
 			playerConfig:set_dirty(pn_to_profile_slot(pn))
