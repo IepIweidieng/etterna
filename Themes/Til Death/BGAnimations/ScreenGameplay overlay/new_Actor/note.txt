@@ -1,0 +1,55 @@
+Def.[actor class]{} -> {
+	Class = [actor class],
+	_Source = info.source,
+	_Dir = DebugPathToRealPath(info.source),
+	_Line = info.currentline,
+} with metatable = {
+	__concat = function(left, right)
+		return MergeTables( left, right )
+	end
+}
+
+
+LoadActor:
+------------------------------
+Lua -- chunk -> //return
+
+Bitmap, Movie -- function -> {
+	Class = Sprite,
+//	Texture = sPath,
+}
+Sound -- function -> {
+	Class = Sound,
+//	File,
+//	SupportPan,
+//	SupportRateChanging,
+//	IsAction,
+}
+Model -- function -> {
+	Class = Model,
+//	Meshese = sPath,
+//	Materialse = sPath,
+//	Bonese = sPath,
+}
+Directory -- function -> {
+	Class = BGAnimation,
+//	AniDir = sPath,
+}
+------------------------------
+
+{
+	Class = BitmapText,
+	Font --[[File]],
+	Text,
+}
+
+{
+	Class = ColorBitmapText,
+	Font --[[File]],
+	Text,
+}
+
+Common: {
+	Condition = bCond,
+	Class --[[Type]] = sClass,
+}

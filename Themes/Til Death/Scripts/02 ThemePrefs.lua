@@ -86,6 +86,51 @@ function ReceptorSize()
 	return t
 end
 
+local TiltMods = {"Incoming", "Overhead", "Space", "Hallway", "Distant", "Horizontal"}
+local TiltChoices = {}
+for i, v in ipairs(TiltMods) do
+    TiltChoices[i] = THEME:GetString("OptionNames", v)
+end
+function Perspective()
+    local t = {
+        Name = "Persp",
+        LayoutType = "ShowAllInRow",
+        SelectType = "SelectOne",
+        OneChoiceForAllPlayers = false,
+        ExportOnChange = true,
+        Choices = TiltChoices,
+        LoadSelections = function(self, list, pn)
+            local prefs = playerConfig:get_data(pn_to_profile_slot(pn)).Perspective
+            list[prefs] = true
+        end,
+        SaveSelections = function(self, list, pn)
+            local found = false
+            for i = 1, #list do
+                if not found then
+                    if list[i] == true then
+                        local value = i
+                        playerConfig:get_data(pn_to_profile_slot(pn)).Perspective = value
+                        found = true
+                        local modslevel = topscreen  == "ScreenEditOptions" and "ModsLevel_Stage" or "ModsLevel_Preferred"
+                        local playeroptions = GAMESTATE:GetPlayerState(pn):GetPlayerOptions(modslevel)
+                        if playeroptions[TiltMods[value]] ~= nil and TiltMods[value] ~= "Overhead" then
+                            playeroptions[TiltMods[value]](playeroptions, 1)
+                        elseif TiltMods[value] == "Horizontal" then
+                            playeroptions:Hallway(2)
+                        else
+                            playeroptions:Overhead(true)
+                        end
+                    end
+                end
+            end
+            playerConfig:set_dirty(pn_to_profile_slot(pn))
+            playerConfig:save(pn_to_profile_slot(pn))
+        end
+    }
+    setmetatable(t, t)
+    return t
+end
+
 local ErrorBarCountChoices = {}
 for i = 1, 200 do
 	ErrorBarCountChoices[i] = tostring(i)

@@ -11,6 +11,7 @@ local t = Def.ActorFrame {}
 t[#t + 1] = LoadActor("WifeJudgmentSpotting")
 t[#t + 1] = LoadActor("titlesplash")
 t[#t + 1] = LoadActor("leaderboard")
+t[#t + 1] = LoadActor("HorizontalLane")
 if inReplay then
 	t[#t + 1] = LoadActor("replayscrolling")
 end

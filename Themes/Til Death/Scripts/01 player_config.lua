@@ -89,6 +89,7 @@ local defaultConfig = {
 	JudgmentText = true,
 	ComboText = true,
 	ReceptorSize = 100,
+	Perspective= 2,
 	ErrorBarCount = 30,
 	BackgroundType = 1,
 	UserName = "",
